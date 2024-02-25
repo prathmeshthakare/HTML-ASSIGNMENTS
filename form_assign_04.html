@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Table with form Assignment 3</title>
+        <legend><h2 align="center">REGISTRATION APPLICATION FORM FOR COURSE - O LEVEL</h2>
+        </legend>
+    </head>
+    <body>
+        
+       <center>
+
+        <form action="" >
+        <table border="1" cellspacing="0" cellpadding="10px">
+
+            <tr>
+                <td bgcolor="skyblue" colspan="3" style="font-family: cooper;">1. Registration Form </td>
+            </tr>
+
+            <tr>
+                <td>1.0</td>
+                <td>Have you got online reference number for enrolment with NIELIT / Accreditation / Extension Center </td>
+
+                <td>
+                    <label for="y"> Yes</label>
+                    <input  type="radio" name="enroll" id="y" >
+                    <label for="n"> No </label>
+                    <input type="radio" name="enroll" id="n">
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>1.1</td>
+                <td>Registration sought for </td>
+                <td><input type="text" disabled value="O LEVEL"></td>
+            </tr>
+
+            <tr>
+                <td>1.2</td>
+                <td>Applied As </td>
+                <td>
+                    <label for="dc"> Direct Candidate</label>
+                    <input type="radio" id="dc" name="apply">
+                    <label for="ti"> Throught Institude</label>
+                    <input type="radio" id="ti" name="apply">
+
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>1.3</td>
+                <td>Exam Cycle</td>
+                <td><input type="text " value="Feb 2024" readonly> </td>
+            </tr>
+
+
+            <tr>
+                <td>1.4</td>
+                <td>Registration Fee Will Be Paid By?</td>
+                <td><input type="text" id="" value="Candidate Direct to NIELIT" readonly></td>
+            </tr>
+
+            <tr>
+                <td colspan="3" bgcolor="skyblue" style="font-family: cooper;">2. Applicant's Personal Details </td>
+            </tr>
+
+            <tr>
+                <td>2.1</td>
+                <td>Applicant's Full Name </td>
+                <td>
+                    <select name="" id="">
+                        <option value="">Mr.</option>
+                        <option value="">Mrs.</option>
+                        <option value="">Other </option>
+                    </select>
+                   <input type="text" placeholder="Enter your Full Name ">
+                </td>
+            </tr>
+
+            <tr>
+                <td>2.2</td>
+                <td>Care Of</td>
+                <td> 
+                    <label for="pr"> Parents</label>
+                    <input type="radio" id="pr" name="care">
+                    <label for="Gr"> Guardian</label>
+                    <input type="radio" id="Gr" name="care">
+                </td>
+            </tr>
+
+            <tr>
+                <td>2.2.1</td>
+                <td>Father Name </td>
+                <td> <select name="" disabled id="" >
+                    <option value="" >Mr.</option>
+                </select>
+            <input placeholder="Enter your Father Name " type="text">
+            </td>
+            </tr>
+
+            <tr>
+                <td>2.2.2</td>
+                <td>Mother Name </td>
+                <td> <select name="" disabled id="" >
+                    <option value="">Mrs.</option>
+                </select>
+            <input type="text" placeholder="Enter your Mother Name ">
+            </td>
+            </tr>
+
+            <tr>
+                <td>2.3</td>
+                <td>Gender </td>
+                <td>
+                    <label for="m">Male</label>
+                    <input type="radio" id="m" name="Gender">
+                    <label for="f">Female</label>
+                    <input type="radio" id="f" name="Gender">
+                    <label for="o">Others </label>
+                    <input type="radio" id="o" name="Gender">
+                </td>
+            </tr>
+
+            <tr>
+                <td>2.4</td>
+                <td>Date of Birth</td>
+                <td><input type="date"></td>
+                
+            </tr>
+
+            <tr>
+                <td>2.5</td>
+                <td>Marital Status</td>
+                <td><select name="" id="">
+                    <option value="">--Select--</option>
+                    <option value="">Single</option>
+                    <option value="">Married</option>
+                    <option value="">Devorced</option>
+                    <option value="">Widowed</option>
+                </select></td>
+            </tr>
+
+            <tr>
+                <td>2.6</td>
+                <td>Category</td>
+                <td>
+                    <select name="" id="">
+                        <option value="">--Select--</option>
+                        <option value="">Gen</option>
+                        <option value="">OBC</option>
+                        <option value="">SC</option>
+                        <option value="">ST</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>2.7</td>
+                <td>Handicapped</td>
+                <td>
+                    <label for="yess"> Yes</label>
+                    <input type="radio" id="yess" name="handicap">
+                    <label for="nooo">No </label>
+                    <input type="radio" name="handicap" id="nooo">
+                </td>
+            </tr>
+
+            <tr>
+                <td>2.8</td>
+                <td>Ex-Serviceman </td>
+                <td>
+                    <label for="ho"> Yes </label>
+                    <input type="radio" id="ho" name="ex-service">
+                    <label for="nh"> No </label>
+                    <input type="radio" id="nh" name="ex-service">
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>2.9</td>
+                <td>EWS</td>
+                <td>
+                    <label for="hoo"> Yes</label>
+                    <input type="radio" id="y" name="ews">
+                    <label for="nhi"> No </label>
+                    <input type="radio" id="nhi" name="ews">
+
+                </td>
+            </tr>
+
+                <tr>
+                    <td>2.10</td>
+                    <td> Religion</td>
+                    <td> 
+                        <select name="" id="">
+                            <option value="">--Select--</option>
+                            <option value="" selected>Hindu</option>
+                            <option value="">Muslim</option>
+                            <option value="">Jain</option>
+                        </select>
+                    </td>
+                
+                </tr>
+
+                <tr>
+                    <td colspan="3" bgcolor="skyblue" style="font-family: cooper;">3. Contact Details </td>
+                </tr>
+
+
+                <tr>
+
+                    <td>3.1</td>
+                    <td>Mobile Number </td>
+                    <td>
+                        <select name="" id="" disabled>
+                            <option value="" >+91</option>
+                        </select>
+                        <input type="number"> </td>
+                </tr>
+
+                <tr>
+                    <td>3.2     </td>
+                    <td>Email ID  </td>
+                    <td><input type="email" required placeholder="Enter your Email ID"> </td>
+                </tr>
+
+
+                <tr>
+                    <td>3.3</td>
+                    <td>Address Line 1</td>
+                    <td><input type="text" placeholder="Enter your Address "></td>
+                </tr>
+
+                <tr>
+                    <td>3.4</td>
+                    <td>Address Line 2</td>
+                    <td><input type="text" placeholder=" "></td>
+                </tr>
+
+                <tr>
+                    <td>3.5</td>
+                    <td>City</td>
+                    <td><input type="text" placeholder=""></td>
+                </tr>
+
+                <tr>
+                    <td>3.6</td>
+                    <td>State</td>
+                    <td>
+                        <select name="" id="">
+                            <option value="">--Select--</option>
+                            <option value="" selected>Maharashtra</option>
+                            <option value="">Uttar Pradesh</option>
+                            <option value="">Madhya  Pradesh</option>
+                            <option value="">Punjab</option>
+                            <option value="">Hariyana</option>
+                            <option value="">Gujarat </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>3.7</td>
+                    <td>Pin Code </td>
+                    <td><input type="number" > </td>
+            
+                </tr>
+
+
+                <tr>
+                    <td colspan="3" style="font-family: cooper;" bgcolor="skyblue">4. Educatonal / Qualification Details </td>
+                </tr>
+                
+                <tr>
+                    
+                    <td>4.1</td>
+                    <td>Highest Educatonal Qualification </td>
+                    <td>
+                        <select name="" id="">
+                            <option value="">--Select--</option>
+                            <option value="">10<sup>th </sup></option>
+                            <option value="">12<sup>th </sup></option>
+                            <option value="">Graduate</option>
+                            <option value="">Post Graduate</option>
+                        </select>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+                    <td>4.2</td>
+                    <td>Year of Passing</td>
+                    <td><input type="month" ></td>
+                </tr>
+
+                <tr>
+
+                    <td bgcolor="skyblue" colspan="3" style="font-family: cooper; ">5. Identification Details</td>
+                </tr>
+
+                <tr>
+
+                    <td>5.1</td>
+                    <td>Adhar Card Number</td>
+                    <td> <input type="number"></td>
+                </tr>
+
+                <tr>
+                    <td>5.2</td>
+                    <td>Upload Photo</td>
+                    <td><input type="file"></td>
+                </tr>
+
+                <tr>
+                    <td align="center" colspan="3">
+                        <input type="submit" value="Submit" > 
+                       &nbsp; &nbsp; &nbsp; &nbsp; <input type="reset" ></td>
+                </tr>
+
+        </table>
+
+    </form>
+       </center>
+    </body>
+</html>
