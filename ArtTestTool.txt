@@ -1,0 +1,172 @@
+//header files 
+
+#include <afxwin.h>        // MFC core and standard components
+#include <windows.h>       // Win32 API
+#include <shlwapi.h>       // PathFileExists
+#include <string>
+#include <iostream>
+#include <afxstr.h> 
+#include <tchar.h>
+
+
+//function declaration 
+
+BOOL CheckFolderExists(LPCTSTR folderPath);
+FILETIME GetFolderCreationTime(LPCTSTR folderPath);
+BOOL IsOlderThanTwoDays(FILETIME creationTime);
+BOOL AskUserForDeletion();
+BOOL DeleteFolderForcefully(LPCTSTR folderPath);
+bool CloneAtomicRedTeamRepo();
+bool DownloadAndPrepareAtomicRedTeam();
+
+
+
+// function defination 
+
+
+BOOL CARTTestToolDlg::CheckFolderExists(LPCTSTR folderPath) {
+	return PathFileExists(folderPath);
+}
+
+FILETIME CARTTestToolDlg::GetFolderCreationTime(LPCTSTR folderPath) {
+	WIN32_FILE_ATTRIBUTE_DATA fileInfo;
+	FILETIME ft = { 0,0 };
+
+	if (GetFileAttributesEx(folderPath, GetFileExInfoStandard, &fileInfo)) {
+		ft = fileInfo.ftCreationTime;
+	}
+	return ft;
+}
+
+BOOL CARTTestToolDlg::IsOlderThanTwoDays(FILETIME creationTime) {
+	SYSTEMTIME stUTC, stLocal;
+	FileTimeToSystemTime(&creationTime, &stUTC);
+	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+
+	// Convert to ULONGLONG for easy arithmetic
+	ULONGLONG fileTime64 = (((ULONGLONG)creationTime.dwHighDateTime) << 32) + creationTime.dwLowDateTime;
+
+	FILETIME ftNow;
+	GetSystemTimeAsFileTime(&ftNow);
+	ULONGLONG nowTime64 = (((ULONGLONG)ftNow.dwHighDateTime) << 32) + ftNow.dwLowDateTime;
+
+	// Difference in 100-nanosecond intervals
+	ULONGLONG diff = nowTime64 - fileTime64;
+
+	// 1 day = 24 * 60 * 60 seconds = 86400
+	// FILETIME unit = 100 nanoseconds → 1 second = 10,000,000 intervals
+	const ULONGLONG TWO_DAYS = 2ULL * 86400ULL * 10000000ULL;
+
+	return (diff >= TWO_DAYS);
+}
+
+
+BOOL CARTTestToolDlg::AskUserForDeletion() {
+	int response = MessageBox(
+		_T("The folder is older than 2 days. Do you want to delete it?"),
+		_T("Confirm Delete"),
+		MB_YESNO | MB_ICONQUESTION);
+
+	return (response == IDYES);
+	return true;
+}
+
+BOOL CARTTestToolDlg::DeleteFolderForcefully(LPCTSTR folderPath) {
+	SHFILEOPSTRUCT fileOp = { 0 };
+	TCHAR path[MAX_PATH];
+	_tcscpy_s(path, folderPath);
+	path[_tcslen(path) + 1] = 0; // double null termination required
+
+	fileOp.hwnd = NULL;
+	fileOp.wFunc = FO_DELETE;
+	fileOp.pFrom = path;
+	fileOp.fFlags = FOF_NO_UI; // no UI
+
+	return (SHFileOperation(&fileOp) == 0);
+}
+
+
+bool CARTTestToolDlg::CloneAtomicRedTeamRepo()
+{
+	CString command =
+		L"powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "
+		L"\"& 'C:\\Program Files\\Git\\bin\\git.exe' clone https://github.com/redcanaryco/atomic-red-team.git C:\\AtomicRedTeam\"";
+
+	STARTUPINFOW si;
+	PROCESS_INFORMATION pi;
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(si);
+
+	ZeroMemory(&pi, sizeof(pi));
+
+	// CString ko buffer me daalna hoga (writable string)
+	wchar_t cmdLine[1024];
+	wcscpy_s(cmdLine, command);
+
+	BOOL result = CreateProcessW(
+		NULL,          // app name
+		cmdLine,       // command line (PowerShell command)
+		NULL,          // process security
+		NULL,          // thread security
+		TRUE,          // inherit handles (PowerShell output window inherit kare)
+		0,             // <<-- yaha pe CREATE_NO_WINDOW hata diya
+		NULL,          // env vars
+		NULL,          // current dir
+		&si,           // startup info
+		&pi            // process info
+	);
+
+	if (!result)
+	{
+		DWORD err = GetLastError();
+		CString msg;
+		msg.Format(L"Process create failed. Error: %lu", err);
+		MessageBoxW(msg, L"Error", MB_ICONERROR);
+		return false;
+	}
+
+	// PowerShell ke khatam hone ka wait karega
+	WaitForSingleObject(pi.hProcess, INFINITE);
+
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+
+	return true;
+}
+
+
+//call from Oninit
+
+LPCTSTR folder = _T("C:\\AtomicRedTeam");
+
+if (CheckFolderExists(folder))
+{
+	FILETIME ft = GetFolderCreationTime(folder);
+
+	if (IsOlderThanTwoDays(ft)) {
+		if (AskUserForDeletion()) {
+			if (DeleteFolderForcefully(folder)) {
+				MessageBox( _T("Folder deleted successfully."), _T("Success"), MB_OK);
+			}
+			else {
+				MessageBox( _T("Failed to delete folder."), _T("Error"), MB_OK);
+			}
+		}
+		else {
+			MessageBox( _T("Folder kept as it is."), _T("Info"), MB_OK);
+		}
+	}
+	else {
+		MessageBox( _T("Folder is not older than 2 days."), _T("Info"), MB_OK);
+	}
+}
+else {
+	//MessageBox( _T("Folder does not exist."), _T("Info"), MB_OK);
+	DownloadAndPrepareAtomicRedTeam();
+
+	if (!CloneAtomicRedTeamRepo())
+	{
+		MessageBox(_T("Failed to clone AtomicRedTeam."), _T("Info"), MB_OK);
+		DownloadAndPrepareAtomicRedTeam();
+	}
+}
